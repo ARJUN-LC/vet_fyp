@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internal Marks Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            color: #ff9900;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container {
+            background-color: #333;
+            padding: 30px;
+            border-radius: 8px;
+            width: 350px;
+            margin: 0 auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #555;
+            width: 100%;
+            font-size: 16px;
+            background-color: #222;
+            color: white;
+        }
+        input[type="submit"] {
+            background-color: #ff9900;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #ffcc00;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .result p {
+            font-size: 20px;
+            color: #28a745;
+        }
+        .error {
+            text-align: center;
+            color: #dc3545;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Internal Marks Calculator</h2>
+
+    <div class="form-container">
+        <form id="marksForm">
+            <label for="assg1">Assignment 1 Marks:</label>
+            <input type="number" id="assg1" name="assg1" required>
+
+            <label for="assg2">Assignment 2 Marks:</label>
+            <input type="number" id="assg2" name="assg2" required>
+
+            <label for="assg3">Assignment 3 Marks:</label>
+            <input type="number" id="assg3" name="assg3" required>
+
+            <label for="cia1">CIA 1 Marks:</label>
+            <input type="number" id="cia1" name="cia1" required>
+
+            <label for="cia2">CIA 2 Marks:</label>
+            <input type="number" id="cia2" name="cia2" required>
+
+            <label for="model">Model Exam Marks:</label>
+            <input type="number" id="model" name="model" required>
+
+            <input type="submit" value="Calculate Internal Marks">
+        </form>
+    </div>
+
+    <div class="result" id="resultSection" style="display:none;">
+        <p><strong>Calculated Internal Marks: <span id="finalMarks">0</span></strong></p>
+    </div>
+
+    <div class="error" id="errorSection" style="display:none;">
+        <p>Oops! Something went wrong. Please check your input.</p>
+    </div>
+
+    <script>
+        // Handling the form submission
+        document.getElementById('marksForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get values from the form
+            const assg1 = parseFloat(document.getElementById('assg1').value);
+            const assg2 = parseFloat(document.getElementById('assg2').value);
+            const assg3 = parseFloat(document.getElementById('assg3').value);
+            const cia1 = parseFloat(document.getElementById('cia1').value);
+            const cia2 = parseFloat(document.getElementById('cia2').value);
+            const model = parseFloat(document.getElementById('model').value);
+
+            // Check if all values are numbers
+            if (isNaN(assg1) || isNaN(assg2) || isNaN(assg3) || isNaN(cia1) || isNaN(cia2) || isNaN(model)) {
+                document.getElementById('errorSection').style.display = 'block';
+                document.getElementById('resultSection').style.display = 'none';
+                return;
+            }
+
+            // Calculate total assignment marks (total out of 30, scaled to 10)
+            const total_assignment_marks = (assg1 + assg2 + assg3) / 30 * 10;
+
+            // Calculate average internal marks (total out of 60, scaled to 20)
+            const average_internal_marks = (cia1 + cia2) / 60 * 20;
+
+            // Calculate model exam marks (scaled to 20)
+            const model_marks = model / 50 * 20;
+
+            // Calculate the final internal marks
+            const final_marks = total_assignment_marks + average_internal_marks + model_marks;
+
+            // Show result
+            document.getElementById('finalMarks').textContent = final_marks.toFixed(2);
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('errorSection').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
